@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/transparent">
+
+    <!-- ==================== Card Container ==================== -->
+    <LinearLayout
+        android:id="@+id/dialogo_card_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/dialogo_bottomsheet_bg"
+        android:clipToOutline="true"
+        android:paddingTop="12dp"
+        android:paddingBottom="20dp">
+
+        <!-- Drag Handle -->
+        <View
+            android:id="@+id/dialogo_drag_handle"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="14dp"
+            android:background="#D1D5DB" />
+
+        <!-- Content Scroll Container -->
+        <ScrollView
+            android:id="@+id/dialogo_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Icon -->
+                <ImageView
+                    android:id="@+id/dialogo_iv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="Dialog Icon"
+                    android:scaleType="centerInside"
+                    android:visibility="gone"
+                    tools:src="@android:drawable/ic_dialog_info"
+                    tools:visibility="gone" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/dialogo_tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="start"
+                    android:textColor="#111827"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:text="Dialog Title"
+                    tools:visibility="visible" />
+
+                <!-- Message -->
+                <TextView
+                    android:id="@+id/dialogo_tv_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="start"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="#6B7280"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:text="Dialog message here."
+                    tools:visibility="visible" />
+
+                <!-- Custom View / Input / Progress Container -->
+                <LinearLayout
+                    android:id="@+id/dialogo_custom_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="gone" />
+
+                <!-- RecyclerView for Lists -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialogo_rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:visibility="gone"
+                    tools:listitem="@layout/dialogo_item_bottomsheet"
+                    tools:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Action Buttons Container -->
+        <LinearLayout
+            android:id="@+id/dialogo_buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <Button
+                android:id="@+id/dialogo_btn_neutral"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="72dp"
+                android:textAllCaps="false"
+                android:textColor="#6B7280"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="Details"
+                tools:visibility="visible" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/dialogo_btn_negative"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="72dp"
+                android:textAllCaps="false"
+                android:textColor="#EF4444"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="Cancel"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/dialogo_btn_positive"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="72dp"
+                android:textAllCaps="false"
+                android:textColor="#2563EB"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="OK"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

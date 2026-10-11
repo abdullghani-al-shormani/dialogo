@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialogo_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- ==================== Card Container (Animation Target) ==================== -->
+    <LinearLayout
+        android:id="@+id/dialogo_card_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp"
+        android:clipToOutline="true"
+        tools:background="#FFFFFF">
+
+        <!-- Content Scroll Container -->
+        <ScrollView
+            android:id="@+id/dialogo_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/_7sdp">
+
+                <!-- Icon -->
+                <ImageView
+                    android:id="@+id/dialogo_iv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:contentDescription="Dialog Icon"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:visibility="gone"
+                    tools:src="@android:drawable/ic_dialog_alert"
+                    tools:visibility="gone" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/dialogo_tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#111827"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.01"
+                    android:visibility="gone"
+                    tools:text="Dialog Title"
+                    tools:visibility="visible" />
+
+                <!-- Message -->
+                <TextView
+                    android:id="@+id/dialogo_tv_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/_2sdp"
+                    android:textColor="#4B5563"
+                    android:textSize="@dimen/_11ssp"
+                    android:visibility="gone"
+                    tools:text="Dialog message text."
+                    tools:visibility="visible" />
+
+                <!-- Custom / Input / Progress / Form Container -->
+                <LinearLayout
+                    android:id="@+id/dialogo_custom_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="gone" />
+
+                <!-- RecyclerView for Lists -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialogo_rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:visibility="gone"
+                    tools:listitem="@layout/dialogo_item_list"
+                    tools:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Action Buttons Container -->
+        <LinearLayout
+            android:id="@+id/dialogo_buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <Button
+                android:id="@+id/dialogo_btn_neutral"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="72dp"
+                android:textAllCaps="false"
+                android:textColor="#6B7280"
+                android:textSize="@dimen/_10ssp"
+                android:visibility="gone"
+                tools:text="Details"
+                tools:visibility="visible" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/dialogo_btn_negative"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="72dp"
+                android:textAllCaps="false"
+                android:textColor="#EF4444"
+                android:textSize="@dimen/_10ssp"
+                android:visibility="gone"
+                tools:text="Cancel"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/dialogo_btn_positive"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="72dp"
+                android:textAllCaps="false"
+                android:textColor="#2563EB"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="OK"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

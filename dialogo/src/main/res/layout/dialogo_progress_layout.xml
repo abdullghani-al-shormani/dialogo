@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp">
+
+    <!-- ==================== Circular Mode (Please wait) ==================== -->
+    <LinearLayout
+        android:id="@+id/dialogo_circular_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/dialogo_progress_circular"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:indeterminate="true"
+            android:indeterminateTint="#2563EB" />
+
+
+
+        <TextView
+            android:id="@+id/dialogo_tv_progress_status_circular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:textColor="#374151"
+            android:textSize="15sp"
+            tools:text="Please wait..." />
+
+    </LinearLayout>
+
+    <!-- ==================== Horizontal Mode ==================== -->
+    <LinearLayout
+        android:id="@+id/dialogo_horizontal_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <!-- Status Text -->
+        <TextView
+            android:id="@+id/dialogo_tv_progress_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#374151"
+            android:textSize="14.5sp"
+            android:visibility="gone"
+            tools:text="Downloading..."
+            tools:visibility="visible" />
+
+        <!-- Horizontal Progress Bar -->
+        <ProgressBar
+            android:id="@+id/dialogo_progress_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="14dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/dialogo_progress_drawable"
+            android:progressTint="#2563EB"
+            android:progressBackgroundTint="#E5E7EB" />
+
+        <!-- Percentage Text -->
+        <TextView
+            android:id="@+id/dialogo_tv_progress_percent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#6B7280"
+            android:textSize="13sp"
+            android:visibility="gone"
+            tools:text="45%"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+</LinearLayout>
