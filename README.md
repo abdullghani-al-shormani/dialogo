@@ -17,8 +17,8 @@ Dialogs · BottomSheets · Non-Modal Popups · Forms · Result API
 **Dialogo** is a lightweight, dependency-free Android library that replaces the boilerplate of `BTAlertDialogBT`, `BTDialogFragmentBT`, and `BTBottomSheetDialogBT` with a fluent, chainable API.
 
 Whether you need a simple alert, a complex form, a non-modal popup, or a fully themed dialog system, Dialogo handles it with a single, consistent interface.
-Java
-```
+**Java Example**
+```Java
 Dialogo.with(this)
     .title("Welcome")
     .message("This is a Dialogo dialog.")
@@ -82,7 +82,7 @@ Dialogo.with(this)
 
 ### Step 1 — Add JitPack to settings.gradle
 
-```
+```groovy
 dependencyResolutionManagement {
     repositories {
         google()
@@ -94,7 +94,7 @@ dependencyResolutionManagement {
 
 ### Step 2 — Add the dependency
 
-```
+```groovy
 dependencies {
     implementation 'com.github.abdullghani-al-shormani:dialogo:1.0.0'
 }
@@ -110,7 +110,7 @@ No initialization required. Start building dialogs immediately.
 
 **Java**
 
-```
+```Java
 Dialogo.with(this)
     .title("Welcome")
     .message("Hello, Dialogo!")
@@ -123,7 +123,7 @@ Dialogo.with(this)
 
 **Kotlin**
 
-```
+```Kotlin
 Dialogo.with(this)
     .title("Welcome")
     .message("Hello, Dialogo!")
@@ -143,13 +143,14 @@ Ready-to-use dialogs with appropriate icons, colors, and animations.
 ### Success
 
 **Java**
-```
+
+```Java
 Dialogo.success(this, "Saved!", "Your changes were saved.")
     .show(getSupportFragmentManager());
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.success(this, "Saved!", "Your changes were saved.")
     .show(supportFragmentManager)
 ```
@@ -157,13 +158,15 @@ Dialogo.success(this, "Saved!", "Your changes were saved.")
 ### Show Error
 
 **Java**
-```
+
+```Java
 Dialogo.error(this, "Oops!", "Something went wrong.")
     .show(getSupportFragmentManager());
 ```
 
 **Kotlin**
-```
+
+```Kotlin
 Dialogo.error(this, "Oops!", "Something went wrong.")
     .show(supportFragmentManager)
 ```
@@ -171,13 +174,15 @@ Dialogo.error(this, "Oops!", "Something went wrong.")
 ### Show Warning
 
 **Java**
-```
+
+```Java
 Dialogo.warning(this, "Careful", "This action cannot be undone.")
     .show(getSupportFragmentManager());
 ```
 
 **Kotlin**
-```
+
+```Kotlin
 Dialogo.warning(this, "Careful", "This action cannot be undone.")
     .show(supportFragmentManager)
 ```
@@ -185,13 +190,14 @@ Dialogo.warning(this, "Careful", "This action cannot be undone.")
 ### Show Info
 
 **Java**
-```
+
+```Java
 Dialogo.info(this, "Did you know?", "Long-press any item for more options.")
     .show(getSupportFragmentManager());
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.info(this, "Did you know?", "Long-press any item for more options.")
     .show(supportFragmentManager)
 ```
@@ -199,7 +205,7 @@ Dialogo.info(this, "Did you know?", "Long-press any item for more options.")
 ### Show Loading
 
 **Java**
-```
+```Java
 DialogoFragment loading = Dialogo
     .loading(this, "Processing...")
     .show(getSupportFragmentManager());
@@ -209,7 +215,7 @@ loading.dismiss();
 ```
 
 **Kotlin**
-```
+```Kotlin
 val loading = Dialogo
     .loading(this, "Processing...")
     .show(supportFragmentManager)
@@ -221,13 +227,13 @@ loading.dismiss()
 ### With auto-dismiss timeout:
 
 **Java**
-```
+```Java
 Dialogo.loading(this, "Connecting...", 5000)
     .show(getSupportFragmentManager());
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.loading(this, "Connecting...", 5000)
     .show(supportFragmentManager)
 ```
@@ -235,14 +241,14 @@ Dialogo.loading(this, "Connecting...", 5000)
 ### Delete Confirmation
 
 **Java**
-```
+```Java
 Dialogo.deleteConfirm(this, "important_file.pdf", controller -> {
     // confirmed
 }).show(getSupportFragmentManager());
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.deleteConfirm(this, "important_file.pdf") {
     // confirmed
 }.show(supportFragmentManager)
@@ -255,7 +261,7 @@ Dialogo.deleteConfirm(this, "important_file.pdf") {
 ### Text Input
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Enter your name")
     .input("Full name", "")
@@ -269,7 +275,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Enter your name")
     .input("Full name", "")
@@ -285,7 +291,7 @@ Dialogo.with(this)
 ### Single Choice
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Select language")
     .items("Arabic", "English", "French", "Spanish")
@@ -298,7 +304,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Select language")
     .items("Arabic", "English", "French", "Spanish")
@@ -313,7 +319,7 @@ Dialogo.with(this)
 ### Multi Choice
 
 **Java**
-```
+```Java
 boolean[] checked = {true, false, true, false};
 
 Dialogo.with(this)
@@ -328,7 +334,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 val checked = booleanArrayOf(true, false, true, false)
 
 Dialogo.with(this)
@@ -349,7 +355,7 @@ Dialogo.with(this)
 ### Horizontal (determinate)
 
 **Java**
-```
+```Java
 DialogoFragment dialog = Dialogo.with(this)
     .title("Downloading")
     .progress()
@@ -366,7 +372,7 @@ dialog.setProgressText("Downloaded 50%");
 ```
 
 **Kotlin**
-```
+```Kotlin
 val dialog = Dialogo.with(this)
     .title("Downloading")
     .progress()
@@ -385,7 +391,7 @@ dialog.setProgressText("Downloaded 50%")
 ### Circular (indeterminate)
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Please wait")
     .progress(true)
@@ -396,7 +402,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Please wait")
     .progress(true)
@@ -413,7 +419,7 @@ Dialogo.with(this)
 Professional Material bottom sheet with icon support, drag handle, and full content capabilities.
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Choose an action")
     .items("Edit", "Share", "Duplicate", "Delete")
@@ -431,7 +437,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Choose an action")
     .items("Edit", "Share", "Duplicate", "Delete")
@@ -457,7 +463,7 @@ Dialogs that do not block the UI. Users can interact with the app behind them. I
 ### WhatsApp-style notification (top)
 
 **Java**
-```
+```Java
 Dialogo.popup(this, "New message", "You have a new message from Sara")
     .autoDismissAfter(4000)
     .show(getSupportFragmentManager());
@@ -465,7 +471,7 @@ Dialogo.popup(this, "New message", "You have a new message from Sara")
 
 **Kotlin**
 
-```
+```Kotlin
 Dialogo.popup(this, "New message", "You have a new message from Sara")
     .autoDismissAfter(4000)
     .show(supportFragmentManager)
@@ -473,7 +479,7 @@ Dialogo.popup(this, "New message", "You have a new message from Sara")
 
 ### Custom position
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Bottom Popup")
     .message("Non-modal popup near the bottom.")
@@ -486,7 +492,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Bottom Popup")
     .message("Non-modal popup near the bottom.")
@@ -505,7 +511,7 @@ Dialogo.with(this)
 Replace scattered callbacks with a single, unified listener.
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Delete?")
     .positive("Yes")
@@ -522,7 +528,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Delete?")
     .positive("Yes")
@@ -558,7 +564,7 @@ Dialogo.with(this)
 Build complete forms with multiple field types in a single dialog.
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Sign up")
     .addText("name", "Name", "Your full name")
@@ -579,7 +585,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Sign up")
     .addText("name", "Name", "Your full name")
@@ -629,7 +635,7 @@ Apply any of the following with ``.animation(...)``:
 Example:
 
 **Java**
-```
+```Java
 Dialogo.with(this)
     .title("Bounce!")
     .animation(DialogoAnimation.BOUNCE)
@@ -638,7 +644,7 @@ Dialogo.with(this)
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.with(this)
     .title("Bounce!")
     .animation(DialogoAnimation.BOUNCE)
@@ -663,12 +669,12 @@ Dialogo.with(this)
 In your Application class:
 
 **Java**
-```
+```Java
 Dialogo.initGlobalTheme(BuiltInThemes.DARK());
 ```
 
 **Kotlin**
-```
+```Kotlin
 Dialogo.initGlobalTheme(BuiltInThemes.DARK())
 ```
 
@@ -677,7 +683,7 @@ All dialogs created afterward inherit the theme.
 ### Custom Theme
 
 **Java**
-```
+```Java
 DialogoTheme theme = new DialogoTheme.Builder()
     .setBackgroundColor(0xFFFFFFFF)
     .setCornerRadius(24f)
@@ -692,7 +698,7 @@ Dialogo.initGlobalTheme(theme);
 ```
 
 **Kotlin**
-```
+```Kotlin
 val theme = DialogoTheme.Builder()
     .setBackgroundColor(0xFFFFFFFF.toInt())
     .setCornerRadius(24f)
