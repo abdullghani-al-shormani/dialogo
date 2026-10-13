@@ -375,4 +375,13 @@ public class DialogoBottomSheet extends BottomSheetDialogFragment implements Dia
     private float dpToPx(float dp) {
         return dp * getResources().getDisplayMetrics().density;
     }
+
+    /**
+     * Dismisses the bottom sheet immediately, without playing the exit animation.
+     */
+    public void dismissImmediately() {
+        if (isDismissing) return;
+        isDismissing = true;
+        dismissAllowingStateLoss();
+    }
 }

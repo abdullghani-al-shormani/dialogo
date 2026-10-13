@@ -495,6 +495,17 @@ public class DialogoFragment extends DialogFragment implements DialogoController
         }
     }
 
+    /**
+     * Dismisses the dialog immediately, without playing the exit animation.
+     *
+     * <p>Useful when you need to close the dialog as fast as possible,
+     * for example when the host Activity is being destroyed.</p>
+     */
+    public void dismissImmediately() {
+        if (isDismissing) return;
+        isDismissing = true;
+        dismissAllowingStateLoss();
+    }
     // ==================== Helpers ====================
 
     private float dpToPx(float dp) {
