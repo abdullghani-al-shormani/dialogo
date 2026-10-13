@@ -96,7 +96,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation 'com.github.abdullghani-al-shormani:dialogo:v1.0.1'
+    implementation 'com.github.abdullghani-al-shormani:dialogo:v1.0.2'
 }
 ```
 
