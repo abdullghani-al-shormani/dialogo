@@ -31,22 +31,22 @@ Dialogo.with(this)
 
 ## Table of Contents
 
-- [Features](##features)
-- [Installation](##installation)
-- [Quick Start](##quick-start)
-- [Preset Dialogs](##preset-dialogs)
-- [Input and Lists](##input-and-lists)
-- [Progress Dialogs](##progress-dialogs)
-- [BottomSheet](##bottomsheet)
-- [Non-Modal Popups](##non-modal-popups)
-- [Result API](##result-api)
-- [Form Builder](##form-builder)
-- [Animations](##animations)
-- [Themes](##themes)
-- [Positions and Margins](##positions-and-margins)
-- [API Reference](##api-reference)
-- [Requirements](##requirements)
-- [License](##license)
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Preset Dialogs](#preset-dialogs)
+- [Input and Lists](#input-and-lists)
+- [Progress Dialogs](#progress-dialogs)
+- [BottomSheet](#bottomsheet)
+- [Non-Modal Popups](#non-modal-popups)
+- [Result API](#result-api)
+- [Form Builder](#form-builder)
+- [Animations](#animations)
+- [Themes](#themes)
+- [Positions and Margins](#positions-and-margins)
+- [API Reference](#api-reference)
+- [Requirements](#requirements)
+- [License](#license)
 
 ---
 
@@ -96,7 +96,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation 'com.github.abdullghani-al-shormani:dialogo:1.0.0'
+    implementation 'com.github.abdullghani-al-shormani:dialogo:v1.0.1'
 }
 ```
 
