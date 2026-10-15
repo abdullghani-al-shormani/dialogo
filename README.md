@@ -546,16 +546,16 @@ Dialogo.with(this)
 
 ### DialogoResult API
 
-- `BTisPositive()`` — positive button was pressed.
-- `BTisNegative()`` — negative button was pressed.
-- `BTisNeutral()`` — neutral button was pressed.
-- `BTisDismissed()`` — dismissed without button press.
-- `BTisItemSelected()`` — a list item was selected.
-- `BTgetInputText()`` — text from the input field.
-- `BTgetSelectedIndex()`` — index selected in a single-choice list.
-- `BTgetSelectedItem()`` — item selected in a single-choice list.
-- `BTgetCheckedItems()`` — multi-choice states.
-- `BTgetFormValues()`` — collected form values.
+- ``isPositive()`` — positive button was pressed.
+- ``isNegative()`` — negative button was pressed.
+- ``isNeutral()`` — neutral button was pressed.
+- ``isDismissed()`` — dismissed without button press.
+- ``isItemSelected()`` — a list item was selected.
+- ``getInputText()`` — text from the input field.
+- ``getSelectedIndex()`` — index selected in a single-choice list.
+- ``getSelectedItem()`` — item selected in a single-choice list.
+- ``getCheckedItems()`` — multi-choice states.
+- ``getFormValues()`` — collected form values.
 
 ---
 
