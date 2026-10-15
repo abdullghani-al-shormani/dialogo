@@ -742,57 +742,57 @@ Dialogo.initGlobalTheme(theme)
 
 ### Content
 
-- `BTtitle(CharSequence)`` — set title.
-- `BTmessage(CharSequence)`` — set message.
-- `BTHtmlMessage(boolean)`` — render message as HTML.
-- `BTcopyableMessage(boolean)`` — enable long-press to copy.
-- `BTicon(int)/BTicon(Drawable)`` — set icon.
-- `BTiconTint(int)`` — icon color.
-- `BTiconSize(int)`` — icon size in dp.
-- `BTanimateIcon(boolean)`` — icon bounce animation.
+- ``title(CharSequence)`` — set title.
+- ``message(CharSequence)`` — set message.
+- ``HtmlMessage(boolean)`` — render message as HTML.
+- ``copyableMessage(boolean)`` — enable long-press to copy.
+- ``icon(int)/BTicon(Drawable)`` — set icon.
+- ``iconTint(int)`` — icon color.
+- ``iconSize(int)`` — icon size in dp.
+- ``animateIcon(boolean)`` — icon bounce animation.
 
 ### Styling
 
-- `BTtitleColor(int)`` — title color.
-- `BTmessageColor(int)`` — message color.
-- `BTtitleSize(int)`` — title size in sp.
-- `BTmessageSize(int)`` — message size in sp.
-- `BTtitleGravity(int)`` — title gravity.
-- `BTmessageGravity(int)`` — message gravity.
-- `BTfont(Typeface)`` — font for all text.
-- `BTbackgroundColor(int)`` — card background.
-- `BTcornerRadius(float)`` — corner radius in px.
-- `BTelevation(float)`` — elevation in dp.
-- `BTstroke(int, float)`` — border color and width.
-- `BTblurBackground(boolean)`` — background blur (API 31+).
-- `BTdimAmount(float)`` — background dim.
-- `BTwidthPercentage(float)`` — width as fraction of screen.
-- `BTmaxHeightPercentage(float)`` — max height as fraction of screen.
+- ``titleColor(int)`` — title color.
+- ``messageColor(int)`` — message color.
+- ``titleSize(int)`` — title size in sp.
+- ``messageSize(int)`` — message size in sp.
+- ``titleGravity(int)`` — title gravity.
+- ``messageGravity(int)`` — message gravity.
+- ``font(Typeface)`` — font for all text.
+- ``backgroundColor(int)`` — card background.
+- ``cornerRadius(float)`` — corner radius in px.
+- ``elevation(float)`` — elevation in dp.
+- ``stroke(int, float)`` — border color and width.
+- ``blurBackground(boolean)`` — background blur (API 31+).
+- ``dimAmount(float)`` — background dim.
+- ``widthPercentage(float)`` — width as fraction of screen.
+- ``maxHeightPercentage(float)`` — max height as fraction of screen.
 
 ### Buttons
 
-- `BTpositive(text, listener)`` — positive button.
-- `BTnegative(text, listener)`` — negative button.
-- `BTneutral(text, listener)`` — neutral button.
-- `BTpositiveBackgroundColor(int)`` — positive button background.
-- `BTbuttonsStacked(boolean)`` — stack buttons vertically.
-- `BTfullWidthButtons(boolean)`` — full-width buttons.
+- ``positive(text, listener)`` — positive button.
+- ``negative(text, listener)`` — negative button.
+- ``neutral(text, listener)`` — neutral button.
+- ``positiveBackgroundColor(int)`` — positive button background.
+- ``buttonsStacked(boolean)`` — stack buttons vertically.
+- ``fullWidthButtons(boolean)`` — full-width buttons.
 
 ### Behavior
 
-- `BTcancelable(boolean)`` — dismiss with Back button.
-- `BTcanceledOnTouchOutside(boolean)`` — dismiss on outside tap.
-- `BTautoDismiss(boolean)`` — auto-dismiss after button press.
-- `BTautoDismissAfter(long)`` — auto-dismiss after delay in ms.
-- `BTshowCountdown(boolean)`` — show countdown text.
+- ``cancelable(boolean)`` — dismiss with Back button.
+- ``canceledOnTouchOutside(boolean)`` — dismiss on outside tap.
+- ``autoDismiss(boolean)`` — auto-dismiss after button press.
+- ``autoDismissAfter(long)`` — auto-dismiss after delay in ms.
+- ``showCountdown(boolean)`` — show countdown text.
 
 ### Showing
 
-- `BTshow(fm)`` — show as modal dialog.
-- `BTshow(fm, tag)`` — show with fragment tag.
-- `BTshowBottomSheet(fm)`` — show as bottom sheet.
-- `BTshowForResult(fm, listener)`` — show with result callback.
-- `BTbuild()`` — build without showing.
+- ``show(fm)`` — show as modal dialog.
+- ``show(fm, tag)`` — show with fragment tag.
+- ``showBottomSheet(fm)`` — show as bottom sheet.
+- `showForResult(fm, listener)`` — show with result callback.
+- ``build()`` — build without showing.
 
 ---
 
