@@ -17,14 +17,14 @@ Dialogs · BottomSheets · Non-Modal Popups · Forms · Result API
 **Dialogo** is a lightweight, dependency-free Android library that replaces the boilerplate of ``AlertDialogBT``, ``DialogFragment``, and ``BottomSheetDialog`` with a fluent, chainable API.
 
 Whether you need a simple alert, a complex form, a non-modal popup, or a fully themed dialog system, Dialogo handles it with a single, consistent interface.
-**Java Example**
-```Java
+
+```Kotlin
 Dialogo.with(this)
     .title("Welcome")
     .message("This is a Dialogo dialog.")
-    .positive("OK", null)
-    .negative("Cancel", null)
-    .show(getSupportFragmentManager());
+    .positive("OK")
+    .negative("Cancel")
+    .show(supportFragmentManager)
 ```
 
 ---
