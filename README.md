@@ -14,7 +14,7 @@ Dialogs · BottomSheets · Non-Modal Popups · Forms · Result API
 
 ## Overview
 
-**Dialogo** is a lightweight, dependency-free Android library that replaces the boilerplate of `BTAlertDialogBT`, `BTDialogFragmentBT`, and `BTBottomSheetDialogBT` with a fluent, chainable API.
+**Dialogo** is a lightweight, dependency-free Android library that replaces the boilerplate of ``AlertDialogBT``, ``DialogFragment``, and ``BottomSheetDialog`` with a fluent, chainable API.
 
 Whether you need a simple alert, a complex form, a non-modal popup, or a fully themed dialog system, Dialogo handles it with a single, consistent interface.
 **Java Example**
@@ -108,21 +108,6 @@ No initialization required. Start building dialogs immediately.
 
 ## Quick Start
 
-**Java**
-
-```Java
-Dialogo.with(this)
-    .title("Welcome")
-    .message("Hello, Dialogo!")
-    .positive("OK", controller -> {
-        // handle click
-    })
-    .negative("Cancel", null)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
-
 ```Kotlin
 Dialogo.with(this)
     .title("Welcome")
@@ -142,29 +127,12 @@ Ready-to-use dialogs with appropriate icons, colors, and animations.
 
 ### Success
 
-**Java**
-
-```Java
-Dialogo.success(this, "Saved!", "Your changes were saved.")
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.success(this, "Saved!", "Your changes were saved.")
     .show(supportFragmentManager)
 ```
 
 ### Show Error
-
-**Java**
-
-```Java
-Dialogo.error(this, "Oops!", "Something went wrong.")
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 
 ```Kotlin
 Dialogo.error(this, "Oops!", "Something went wrong.")
@@ -173,15 +141,6 @@ Dialogo.error(this, "Oops!", "Something went wrong.")
 
 ### Show Warning
 
-**Java**
-
-```Java
-Dialogo.warning(this, "Careful", "This action cannot be undone.")
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
-
 ```Kotlin
 Dialogo.warning(this, "Careful", "This action cannot be undone.")
     .show(supportFragmentManager)
@@ -189,32 +148,12 @@ Dialogo.warning(this, "Careful", "This action cannot be undone.")
 
 ### Show Info
 
-**Java**
-
-```Java
-Dialogo.info(this, "Did you know?", "Long-press any item for more options.")
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.info(this, "Did you know?", "Long-press any item for more options.")
     .show(supportFragmentManager)
 ```
 
 ### Show Loading
-
-**Java**
-```Java
-DialogoFragment loading = Dialogo
-    .loading(this, "Processing...")
-    .show(getSupportFragmentManager());
-
-// Dismiss later:
-loading.dismiss();
-```
-
-**Kotlin**
 ```Kotlin
 val loading = Dialogo
     .loading(this, "Processing...")
@@ -226,13 +165,6 @@ loading.dismiss()
 
 ### With auto-dismiss timeout:
 
-**Java**
-```Java
-Dialogo.loading(this, "Connecting...", 5000)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.loading(this, "Connecting...", 5000)
     .show(supportFragmentManager)
@@ -240,14 +172,6 @@ Dialogo.loading(this, "Connecting...", 5000)
 
 ### Delete Confirmation
 
-**Java**
-```Java
-Dialogo.deleteConfirm(this, "important_file.pdf", controller -> {
-    // confirmed
-}).show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.deleteConfirm(this, "important_file.pdf") {
     // confirmed
@@ -260,21 +184,6 @@ Dialogo.deleteConfirm(this, "important_file.pdf") {
 
 ### Text Input
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Enter your name")
-    .input("Full name", "")
-    .inputRequired(true)
-    .inputRequiredError("Name is required")
-    .positive("Save", controller -> {
-        String name = controller.getInputText();
-    })
-    .negative("Cancel", null)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Enter your name")
@@ -290,20 +199,6 @@ Dialogo.with(this)
 
 ### Single Choice
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Select language")
-    .items("Arabic", "English", "French", "Spanish")
-    .singleChoice(0, (position, item, controller) -> {
-        // item selected
-    })
-    .positive("OK", null)
-    .negative("Cancel", null)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Select language")
@@ -318,22 +213,6 @@ Dialogo.with(this)
 
 ### Multi Choice
 
-**Java**
-```Java
-boolean[] checked = {true, false, true, false};
-
-Dialogo.with(this)
-    .title("Select interests")
-    .items("Programming", "Design", "AI", "Marketing")
-    .multiChoice(checked, (checkedItems, controller) -> {
-        // use checkedItems
-    })
-    .positive("Confirm", null)
-    .negative("Cancel", null)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 val checked = booleanArrayOf(true, false, true, false)
 
@@ -354,24 +233,6 @@ Dialogo.with(this)
 
 ### Horizontal (determinate)
 
-**Java**
-```Java
-DialogoFragment dialog = Dialogo.with(this)
-    .title("Downloading")
-    .progress()
-    .progressValue(0)
-    .progressText("Starting...")
-    .showProgressPercent(true)
-    .progressColor(0xFF10B981)
-    .cancelable(false)
-    .show(getSupportFragmentManager());
-
-// Update from anywhere:
-dialog.setProgress(50);
-dialog.setProgressText("Downloaded 50%");
-```
-
-**Kotlin**
 ```Kotlin
 val dialog = Dialogo.with(this)
     .title("Downloading")
@@ -390,18 +251,6 @@ dialog.setProgressText("Downloaded 50%")
 
 ### Circular (indeterminate)
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Please wait")
-    .progress(true)
-    .progressText("Processing...")
-    .cancelable(false)
-    .autoDismissAfter(4000)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Please wait")
@@ -418,25 +267,6 @@ Dialogo.with(this)
 
 Professional Material bottom sheet with icon support, drag handle, and full content capabilities.
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Choose an action")
-    .items("Edit", "Share", "Duplicate", "Delete")
-    .itemIcons(
-        android.R.drawable.ic_menu_edit,
-        android.R.drawable.ic_menu_share,
-        android.R.drawable.ic_menu_add,
-        android.R.drawable.ic_menu_delete
-    )
-    .itemIconTint(0xFF2563EB)
-    .itemClick((position, item, controller) -> {
-        // handle click
-    })
-    .showBottomSheet(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Choose an action")
@@ -462,15 +292,6 @@ Dialogs that do not block the UI. Users can interact with the app behind them. I
 
 ### WhatsApp-style notification (top)
 
-**Java**
-```Java
-Dialogo.popup(this, "New message", "You have a new message from Sara")
-    .autoDismissAfter(4000)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
-
 ```Kotlin
 Dialogo.popup(this, "New message", "You have a new message from Sara")
     .autoDismissAfter(4000)
@@ -478,20 +299,7 @@ Dialogo.popup(this, "New message", "You have a new message from Sara")
 ```
 
 ### Custom position
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Bottom Popup")
-    .message("Non-modal popup near the bottom.")
-    .asPopup()
-    .positionBottom()
-    .marginBottomDp(80)
-    .animation(DialogoAnimation.SLIDE_UP)
-    .autoDismissAfter(5000)
-    .show(getSupportFragmentManager());
-```
 
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Bottom Popup")
@@ -510,24 +318,6 @@ Dialogo.with(this)
 
 Replace scattered callbacks with a single, unified listener.
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Delete?")
-    .positive("Yes")
-    .negative("No")
-    .showForResult(getSupportFragmentManager(), result -> {
-        if (result.isPositive()) {
-            deleteItem();
-        } else if (result.isNegative()) {
-            // cancelled
-        } else if (result.isDismissed()) {
-            // tapped outside
-        }
-    });
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Delete?")
@@ -563,28 +353,7 @@ Dialogo.with(this)
 
 Build complete forms with multiple field types in a single dialog.
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Sign up")
-    .addText("name", "Name", "Your full name")
-    .addEmail("email", "Email", "you@example.com")
-    .addPassword("password", "Password", "••••••••")
-    .addSwitch("remember", "Remember me", true)
-    .addDropdown("country", "Country",
-        Arrays.asList("Yemen", "Saudi Arabia", "Egypt"), 0)
-    .positive("Create account", controller -> {
-        Map<String, Object> values =
-            controller.getResult().getFormValues();
-        String name  = (String)  values.get("name");
-        String email = (String)  values.get("email");
-        boolean rem  = (Boolean) values.get("remember");
-    })
-    .negative("Cancel", null)
-    .show(getSupportFragmentManager());
-```
 
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Sign up")
@@ -622,28 +391,18 @@ Dialogo.with(this)
 
 Apply any of the following with ``.animation(...)``:
 
-- `BTNONEBT` — no animation.
-- `BTSCALEBT` — scale and fade (default).
-- `BTFADEBT` — smooth fade-in.
-- `BTSLIDE_UPBT` — slides from bottom.
-- `BTSLIDE_DOWNBT` — slides from top.
-- `BTSLIDE_RIGHTBT` — slides from right.
-- `BTSLIDE_LEFTBT` — slides from left.
-- `BTBOUNCEBT` — spring bounce.
-- `BTSHAKEBT` — horizontal shake (ideal for errors).
+- ``NONE`` — no animation.
+- ``SCALE`` — scale and fade (default).
+- ``FADE`` — smooth fade-in.
+- ``SLIDE_UP`` — slides from bottom.
+- ``SLIDE_DOWN`` — slides from top.
+- ``SLIDE_RIGHT`` — slides from right.
+- ``SLIDE_LEFTBT` — slides from left.
+- ``BOUNCE`` — spring bounce.
+- ``SHAKE`` — horizontal shake (ideal for errors).
 
-Example:
+**Example:**
 
-**Java**
-```Java
-Dialogo.with(this)
-    .title("Bounce!")
-    .animation(DialogoAnimation.BOUNCE)
-    .positive("OK", null)
-    .show(getSupportFragmentManager());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.with(this)
     .title("Bounce!")
@@ -658,22 +417,16 @@ Dialogo.with(this)
 
 ### Built-in Themes
 
-- `BTBuiltInThemes.MATERIAL_3()`` — modern Material You.
-- `BTBuiltInThemes.IOS()`` — iOS-style soft colors.
-- `BTBuiltInThemes.DARK()`` — dark mode.
-- `BTBuiltInThemes.MINIMAL()`` — sharp corners, no frills.
-- `BTBuiltInThemes.ROUNDED()`` — very large corner radius.
+- ``BuiltInThemes.MATERIAL_3()`` — modern Material You.
+- ``BuiltInThemes.IOS()`` — iOS-style soft colors.
+- ``BuiltInThemes.DARK()`` — dark mode.
+- ``BuiltInThemes.MINIMAL()`` — sharp corners, no frills.
+- ``BuiltInThemes.ROUNDED()`` — very large corner radius.
 
 ### Apply Globally
 
 In your Application class:
 
-**Java**
-```Java
-Dialogo.initGlobalTheme(BuiltInThemes.DARK());
-```
-
-**Kotlin**
 ```Kotlin
 Dialogo.initGlobalTheme(BuiltInThemes.DARK())
 ```
@@ -682,22 +435,6 @@ All dialogs created afterward inherit the theme.
 
 ### Custom Theme
 
-**Java**
-```Java
-DialogoTheme theme = new DialogoTheme.Builder()
-    .setBackgroundColor(0xFFFFFFFF)
-    .setCornerRadius(24f)
-    .setTitleColor(0xFF111827)
-    .setMessageColor(0xFF4B5563)
-    .setPositiveColor(0xFF2563EB)
-    .setNegativeColor(0xFFDC2626)
-    .setAnimation(DialogoAnimation.SCALE)
-    .build();
-
-Dialogo.initGlobalTheme(theme);
-```
-
-**Kotlin**
 ```Kotlin
 val theme = DialogoTheme.Builder()
     .setBackgroundColor(0xFFFFFFFF.toInt())
