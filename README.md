@@ -375,15 +375,15 @@ Dialogo.with(this)
 
 ### Available Field Types
 
-- `BTaddText()`` — single-line text (String).
-- `BTaddPassword()`` — masked password (String).
-- `BTaddNumber()`` — numeric input (String).
-- `BTaddEmail()`` — email address (String).
-- `BTaddPhone()`` — phone number (String).
-- `BTaddMultiline()`` — multi-line text (String).
-- `BTaddSwitch()`` — toggle switch (Boolean).
-- `BTaddCheckbox()`` — checkbox (Boolean).
-- `BTaddDropdown()`` — dropdown (Integer, selected index).
+- ``addText()`` — single-line text (String).
+- ``addPassword()`` — masked password (String).
+- ``addNumber()`` — numeric input (String).
+- ``addEmail()`` — email address (String).
+- ``addPhone()`` — phone number (String).
+- ``addMultiline()`` — multi-line text (String).
+- ``addSwitch()`` — toggle switch (Boolean).
+- ``addCheckbox()`` — checkbox (Boolean).
+- ``addDropdown()`` — dropdown (Integer, selected index).
 
 ---
 
