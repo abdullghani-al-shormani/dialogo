@@ -11,10 +11,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.abdullghani.dialogo.Dialogo;
 import com.abdullghani.dialogo.animation.DialogoAnimation;
+import com.abdullghani.dialogo.builder.DialogoBuilder;
 import com.abdullghani.dialogo.core.DialogoFragment;
 import com.abdullghani.dialogo.model.DialogoPosition;
 import com.abdullghani.dialogo.theme.BuiltInThemes;
 
+/**
+ * Dialogo Sample Application.
+ *
+ * This activity demonstrates the most important features of the library:
+ * - Basic dialogs
+ * - Presets (Success, Error, Loading, etc.)
+ * - Input & Lists
+ * - Progress dialogs (with programmatic dismiss)
+ * - Animations & Themes
+ * - Non-Modal Popups & Positions
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -67,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btThemeMinimal).setOnClickListener(v -> applyTheme(BuiltInThemes.MINIMAL(), "Minimal"));
         findViewById(R.id.btThemeRounded).setOnClickListener(v -> applyTheme(BuiltInThemes.ROUNDED(), "Rounded"));
 
-        // ==================== BottomSheet ====================
-        findViewById(R.id.btBottomSheet).setOnClickListener(v -> showBottomSheet());
-
         // ==================== Popup & Positions ====================
         findViewById(R.id.btPositionTop).setOnClickListener(v -> showModalAtTop());
         findViewById(R.id.btPositionCenter).setOnClickListener(v -> showModalAtCenter());
@@ -85,15 +94,26 @@ public class MainActivity extends AppCompatActivity {
     // ==================== BASIC DIALOGS ===============================
     // ==================================================================
 
+    /**
+     * 1. Simple Alert (Auto FragmentManager).
+     *
+     * Note: You no longer need to pass `getSupportFragmentManager()`.
+     * Dialogo automatically resolves it from the Activity context!
+     */
     private void showSimpleDialog() {
         Dialogo.with(this)
                 .title("Welcome")
-                .message("This is a simple alert dialog using Dialogo.")
+                .message("This dialog automatically resolved the FragmentManager from the context.")
                 .positive("OK", controller ->
                         Toast.makeText(this, "OK clicked", Toast.LENGTH_SHORT).show())
-                .show(getSupportFragmentManager());
+                .show(); // <-- No getSupportFragmentManager() needed!
     }
 
+    /**
+     * 2. Confirm Dialog.
+     *
+     * Demonstrates a typical confirmation dialog with custom colors.
+     */
     private void showConfirmDialog() {
         Dialogo.with(this)
                 .title("Confirm Delete")
@@ -102,9 +122,14 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show())
                 .negative("Cancel", controller -> controller.dismiss())
                 .cancelable(true)
-                .show(getSupportFragmentManager());
+                .show(getSupportFragmentManager()); // Traditional way still works!
     }
 
+    /**
+     * 3. Fully Styled.
+     *
+     * Shows how to customize colors, corner radius, blur, elevation, and stroke.
+     */
     private void showStyledDialog() {
         Dialogo.with(this)
                 .title("Fully Customized")
@@ -121,27 +146,37 @@ public class MainActivity extends AppCompatActivity {
                 .dimAmount(0.55f)
                 .positive("Agree", Color.parseColor("#1D4ED8"), null)
                 .negative("Close", Color.GRAY, null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
+    /**
+     * 4. With Icon.
+     *
+     * Note: You can control the size and tint of the icon.
+     */
     private void showIconDialog() {
         Dialogo.with(this)
                 .icon(android.R.drawable.ic_dialog_info)
                 .iconTint(Color.parseColor("#2563EB"))
-                .iconSize(35)
+                .iconSize(45) // Size in dp
                 .title("Important Information")
                 .message("You can easily customize the icon size and tint color.")
                 .positive("Got it", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
+    /**
+     * 5. HTML Message.
+     *
+     * Note: Enable HTML formatting using `.htmlMessage(true)`.
+     */
     private void showHtmlMessage() {
         Dialogo.with(this)
                 .title("Formatted Message")
                 .htmlMessage(true)
                 .message("You can use <b>bold</b>, <i>italic</i> and <font color='#2563EB'>colored</font> text")
                 .positive("Awesome", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -150,43 +185,59 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSuccessDialog() {
         Dialogo.success(this, "Saved!", "Your changes have been saved successfully.")
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showErrorDialog() {
         Dialogo.error(this, "Oops!", "Something went wrong. Please try again.")
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showWarningDialog() {
         Dialogo.warning(this, "Careful", "This action cannot be undone.")
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showInfoDialog() {
         Dialogo.info(this, "Did you know?", "You can long-press any item to see more options.")
-                .show(getSupportFragmentManager());
+                .show();
     }
 
+    /**
+     * 10. Loading Dialog (Programmatic Dismiss).
+     *
+     * Important: Loading dialogs are non-cancelable. You MUST hold a reference
+     * to dismiss them manually using `builder.dismiss()`.
+     */
     private void showLoadingDialog() {
-        final DialogoFragment loading = Dialogo.loading(this, "Processing your request...")
-                .show(getSupportFragmentManager());
+        // Hold a reference to the Builder to dismiss it later
+        DialogoBuilder builder = Dialogo.loading(this, "Processing your request...");
 
+        builder.show();
+
+        // Simulate a network request taking 3 seconds
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (loading.isAdded()) loading.dismiss();
+            // Dismiss the dialog safely when the operation finishes
+            builder.dismiss();
+            Toast.makeText(this, "Operation finished!", Toast.LENGTH_SHORT).show();
         }, 3000);
     }
 
     private void showDeleteDialog() {
         Dialogo.deleteConfirm(this, "important_file.pdf", controller ->
                 Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
-        ).show(getSupportFragmentManager());
+        ).show();
     }
 
     // ==================================================================
     // ==================== INPUT & LISTS ===============================
     // ==================================================================
 
+    /**
+     * 12. Input Dialog (Required).
+     *
+     * Note: `.inputRequired(true)` prevents the dialog from dismissing if the input is empty.
+     */
     private void showInputDialog() {
         Dialogo.with(this)
                 .title("Enter your name")
@@ -195,11 +246,12 @@ public class MainActivity extends AppCompatActivity {
                 .inputRequired(true)
                 .inputRequiredError("Please enter a name")
                 .positive("Save", controller -> {
+                    // Retrieve the text from the input field
                     String name = controller.getInputText();
                     Toast.makeText(this, "Hello " + name, Toast.LENGTH_SHORT).show();
                 })
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showSingleChoice() {
@@ -213,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Confirmed", Toast.LENGTH_SHORT).show()
                 )
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showMultiChoice() {
@@ -232,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .positive("Confirm", null)
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -248,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                 .showProgressPercent(true)
                 .progressColor(Color.parseColor("#10B981"))
                 .cancelable(false)
-                .show(getSupportFragmentManager());
+                .show();
 
         Handler handler = new Handler(Looper.getMainLooper());
         final int[] progress = {0};
@@ -277,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                 .progressColor(Color.parseColor("#2563EB"))
                 .cancelable(false)
                 .autoDismissAfter(4000)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -289,14 +341,14 @@ public class MainActivity extends AppCompatActivity {
                 .title("Custom Layout")
                 .message("You can inflate any custom layout you want")
                 .customView(R.layout.dialog_input_layout, (view, controller) -> {
-                    // Optional: configure the custom view here
+                    // Configure the custom view here (e.g., setup listeners)
                 })
                 .positive("Save", controller -> {
                     String text = controller.getInputText();
                     Toast.makeText(this, "Entered text: " + text, Toast.LENGTH_SHORT).show();
                 })
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showAutoDismiss() {
@@ -305,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
                 .message("This message will disappear automatically after 3 seconds")
                 .autoDismissAfter(3000)
                 .positive("OK", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showNonCancelable() {
@@ -315,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                 .cancelable(false)
                 .canceledOnTouchOutside(false)
                 .positive("OK", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showFullExample() {
@@ -339,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
                 .neutral("Details", controller ->
                         Toast.makeText(this, "More details", Toast.LENGTH_SHORT).show())
                 .cancelable(true)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -353,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
                 .animation(animation)
                 .positive("OK", null)
                 .negative("Close", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -368,24 +420,7 @@ public class MainActivity extends AppCompatActivity {
                 .title(name + " Theme")
                 .message("This dialog uses the " + name + " theme applied globally.")
                 .positive("Done", null)
-                .show(getSupportFragmentManager());
-    }
-
-    private void showBottomSheet() {
-        Dialogo.with(this)
-                .title("Options")
-                .message("Choose an action to continue")
-                .items("Edit", "Share", "Duplicate", "Delete")
-                .itemIcons(
-                        android.R.drawable.ic_menu_edit,
-                        android.R.drawable.ic_menu_share,
-                        android.R.drawable.ic_menu_add,
-                        android.R.drawable.ic_menu_delete
-                )
-                .itemIconTint(0xFF2563EB)
-                .itemClick((position, item, controller) ->
-                        Toast.makeText(this, "Clicked: " + item, Toast.LENGTH_SHORT).show())
-                .showBottomSheet(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -397,10 +432,10 @@ public class MainActivity extends AppCompatActivity {
                 .title("Top Modal")
                 .message("This modal appears at the top of the screen.")
                 .position(DialogoPosition.TOP)
-                .marginTop(dp(80))
+                .marginTopDp(80)
                 .positive("OK", null)
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showModalAtCenter() {
@@ -410,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
                 .position(DialogoPosition.CENTER)
                 .positive("OK", null)
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showModalAtBottom() {
@@ -418,10 +453,10 @@ public class MainActivity extends AppCompatActivity {
                 .title("Bottom Modal")
                 .message("This modal appears near the bottom of the screen.")
                 .position(DialogoPosition.BOTTOM)
-                .marginBottom(12)
+                .marginBottomDp(12)
                 .positive("OK", null)
                 .negative("Cancel", null)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     // ==================================================================
@@ -435,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
                 .widthPercentage(0.9f)
                 .animation(DialogoAnimation.SLIDE_DOWN)
                 .autoDismissAfter(5000)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showPopupAtCenter() {
@@ -446,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
                 .position(DialogoPosition.CENTER)
                 .animation(DialogoAnimation.FADE)
                 .autoDismissAfter(4000)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showPopupAtBottom() {
@@ -455,20 +490,19 @@ public class MainActivity extends AppCompatActivity {
                 .message("Non-modal popup near the bottom.")
                 .asPopup()
                 .position(DialogoPosition.BOTTOM)
-                .marginBottom(12)
+                .marginBottomDp(12)
                 .animation(DialogoAnimation.SLIDE_UP)
                 .autoDismissAfter(5000)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showPopupAutoDismiss() {
-        Dialogo.popup(this, "Saved", "Auto-closing in 3 seconds...",
-                        3000)
+        Dialogo.popup(this, "Saved", "Auto-closing in 3 seconds...", 3000)
                 .position(DialogoPosition.TOP)
-                .marginTop(dp(12))
+                .marginTopDp(12)
                 .widthPercentage(0.85f)
                 .animation(DialogoAnimation.SLIDE_DOWN)
-                .show(getSupportFragmentManager());
+                .show();
     }
 
     private void showPopupSlideDown() {
@@ -477,19 +511,10 @@ public class MainActivity extends AppCompatActivity {
                 .message("This popup slides down from the top, and slides up on close.")
                 .asPopup()
                 .position(DialogoPosition.TOP)
-                .marginTop(dp(12))
+                .marginTopDp(12)
                 .widthPercentage(0.92f)
                 .animation(DialogoAnimation.SLIDE_DOWN)
                 .autoDismissAfter(4000)
-                .show(getSupportFragmentManager());
-    }
-
-    // ==================================================================
-    // ==================== HELPERS =====================================
-    // ==================================================================
-
-    /** تحويل dp إلى بكسل. */
-    private int dp(int value) {
-        return (int) (value * getResources().getDisplayMetrics().density);
+                .show();
     }
 }

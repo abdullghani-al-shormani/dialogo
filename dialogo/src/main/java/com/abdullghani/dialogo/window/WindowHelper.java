@@ -60,6 +60,8 @@ public class WindowHelper {
         }
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        applyShadowColor(window, params);
     }
 
     private static void applyPosition(Window window, DialogoParams params) {
@@ -141,5 +143,13 @@ public class WindowHelper {
      */
     public static int dpToPx(Context context, float dp) {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
+
+    public static void applyShadowColor(Window window, DialogoParams params) {
+        if (window == null || params == null || params.shadowColor == null) return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.getDecorView().setOutlineSpotShadowColor(params.shadowColor);
+        }
     }
 }

@@ -6,7 +6,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.abdullghani.dialogo.R;
-import com.abdullghani.dialogo.core.DialogoBottomSheet;
 import com.abdullghani.dialogo.core.DialogoController;
 import com.abdullghani.dialogo.core.DialogoFragment;
 import com.abdullghani.dialogo.model.DialogoAction;
@@ -64,7 +63,7 @@ public class ButtonRenderer {
         button.setText(action.getText());
         button.setVisibility(View.VISIBLE);
 
-        // ✨ Accessibility: الحد الأدنى لحجم اللمس = 48dp
+        // ✨ Accessibility: Minimum touch target size = 48dp
         button.setMinHeight((int) (48 * rootView.getResources().getDisplayMetrics().density));
         button.setMinWidth((int) (72 * rootView.getResources().getDisplayMetrics().density));
 
@@ -125,17 +124,17 @@ public class ButtonRenderer {
             action.getClickListener().onClick(controller);
         }
 
-        // ==================== 5) Set dismissal type ====================
+        // ==================== 5) Set dismissal type for Result API ====================
         DialogoResult.Type type;
         switch (kind) {
             case POSITIVE: type = DialogoResult.Type.POSITIVE; break;
             case NEGATIVE: type = DialogoResult.Type.NEGATIVE; break;
             default:       type = DialogoResult.Type.NEUTRAL; break;
         }
+
+        // Since BottomSheet is removed, we only check for DialogoFragment
         if (controller instanceof DialogoFragment) {
             ((DialogoFragment) controller).setDismissalType(type);
-        } else if (controller instanceof DialogoBottomSheet) {
-            ((DialogoBottomSheet) controller).setDismissalType(type);
         }
 
         // ==================== 6) Auto dismiss ====================

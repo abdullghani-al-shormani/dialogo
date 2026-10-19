@@ -151,7 +151,8 @@ public class DialogoParams {
     public DialogoAction.OnShowListener onShowListener;
     public DialogoAction.OnDismissListener onDismissListener;
     public ResultListener resultListener;
-
+    public Integer shadowColor = null;       // لون الظل (API 28+)
+    public boolean isGlassEnabled = false;   // تفعيل التأثير الزجاجي
     // ==================== Interfaces ====================
 
     public interface OnViewCreatedListener {

@@ -5,9 +5,7 @@ plugins {
 
 android {
     namespace 'com.abdullghani.dialogo'
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk 34 // تم التخفيض من 37 ليتوافق مع معظم المشاريع
 
     defaultConfig {
         minSdk 21
@@ -45,41 +43,24 @@ dependencies {
     androidTestImplementation libs.ext.junit
 }
 
-// ==================== Maven Publish (JitPack) ====================
-
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
-
                 groupId = 'com.github.abdullghani-al-shormani'
                 artifactId = 'dialogo'
-                version = '1.0.1'
+                version = '1.0.3' // تم رفع الإصدار
 
                 pom {
                     name = 'Dialogo'
                     description = 'An elegant, customizable Android dialog library.'
                     url = 'https://github.com/abdullghani-al-shormani/dialogo'
-
                     licenses {
                         license {
                             name = 'MIT License'
                             url = 'https://opensource.org/licenses/MIT'
                         }
-                    }
-
-                    developers {
-                        developer {
-                            id = 'abdullghani-al-shormani'
-                            name = 'Abdullghani Al-Shormani'
-                        }
-                    }
-
-                    scm {
-                        url = 'https://github.com/abdullghani-al-shormani/dialogo'
-                        connection = 'scm:git:git://github.com/abdullghani-al-shormani/dialogo.git'
-                        developerConnection = 'scm:git:ssh://github.com/abdullghani-al-shormani/dialogo.git'
                     }
                 }
             }

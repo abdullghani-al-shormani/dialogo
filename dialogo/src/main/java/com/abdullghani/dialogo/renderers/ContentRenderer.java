@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.text.Html;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +34,11 @@ public class ContentRenderer {
     private final DialogoController controller;
     private View renderedCustomView;
     private FormRenderer formRenderer;
-    private boolean useBottomSheetStyle = false;
 
     public ContentRenderer(View rootView, DialogoParams params, DialogoController controller) {
         this.rootView = rootView;
         this.params = params;
         this.controller = controller;
-    }
-
-    public void setUseBottomSheetStyle(boolean use) {
-        this.useBottomSheetStyle = use;
     }
 
     public void render() {
@@ -173,11 +167,9 @@ public class ContentRenderer {
         ivIcon.setMaxWidth(sizePx);
         ivIcon.setMaxHeight(sizePx);
 
-        // ✨ fitCenter يكبّر الصورة لتناسب الحجم المطلوب
         ivIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
         ivIcon.requestLayout();
 
-        // ... (animation code يبقى كما هو)
         if (params.animateIcon) {
             ivIcon.setScaleX(0.5f);
             ivIcon.setScaleY(0.5f);
@@ -310,7 +302,7 @@ public class ContentRenderer {
 
         rv.setVisibility(View.VISIBLE);
         rv.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        DialogoListAdapter adapter = new DialogoListAdapter(params, controller, useBottomSheetStyle);
+        DialogoListAdapter adapter = new DialogoListAdapter(params, controller);
         rv.setAdapter(adapter);
     }
 

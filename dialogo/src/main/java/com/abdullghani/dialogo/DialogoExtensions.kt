@@ -11,14 +11,14 @@ import com.abdullghani.dialogo.model.DialogoResult
 /**
  * Kotlin DSL entry point for building a Dialogo dialog.
  *
- * <p>Example:</p>
+ * Example:
  * ```
  * dialogo(this) {
  *     title("Save changes?")
  *     message("Do you want to save your changes?")
  *     positive("Save") { saveChanges() }
  *     negative("Cancel")
- * }.show(supportFragmentManager)
+ * }.show()
  * ```
  *
  * @param context Activity or Fragment context.
@@ -31,23 +31,34 @@ fun dialogo(context: Context, block: DialogoBuilder.() -> Unit): DialogoBuilder 
     return builder
 }
 
+// ==================== Result API Extension ====================
+
 /**
  * Shows the dialog and delivers a unified [DialogoResult] via a Kotlin lambda.
+ * Automatically discovers the FragmentManager from the bound context.
  *
- * <p>Example:</p>
+ * Example:
  * ```
  * dialogo(this) {
  *     title("Delete?")
  *     positive("Yes")
  *     negative("No")
- * }.showForResult(supportFragmentManager) { result ->
+ * }.showForResult { result ->
  *     if (result.isPositive) deleteItem()
  * }
  * ```
  *
- * @param fragmentManager The host's FragmentManager.
- * @param onResult        Called once when the dialog is dismissed.
+ * @param onResult Called once when the dialog is dismissed.
  * @return The created [DialogoFragment].
+ */
+fun DialogoBuilder.showForResult(
+    onResult: (DialogoResult) -> Unit
+): DialogoFragment {
+    return this.showForResult { result -> onResult(result) }
+}
+
+/**
+ * Overload for explicitly passing a [FragmentManager].
  */
 fun DialogoBuilder.showForResult(
     fragmentManager: FragmentManager,
@@ -60,20 +71,7 @@ fun DialogoBuilder.showForResult(
 
 /**
  * Kotlin-friendly overload of [DialogoBuilder.positive] accepting a
- * no-argument lambda instead of a [com.abdullghani.dialogo.core.DialogoController]
- * callback.
- *
- * <p>Example:</p>
- * ```
- * dialogo(this) {
- *     title("Save?")
- *     positive("Save") { saveChanges() }
- * }
- * ```
- *
- * @param text    Button label.
- * @param onClick Optional callback with no arguments; may be null.
- * @return This builder for chaining.
+ * no-argument lambda instead of a DialogoController callback.
  */
 fun DialogoBuilder.positive(text: String, onClick: (() -> Unit)? = null): DialogoBuilder {
     return if (onClick != null) {
@@ -84,12 +82,7 @@ fun DialogoBuilder.positive(text: String, onClick: (() -> Unit)? = null): Dialog
 }
 
 /**
- * Kotlin-friendly overload of [DialogoBuilder.negative] accepting a
- * no-argument lambda.
- *
- * @param text    Button label.
- * @param onClick Optional callback; may be null.
- * @return This builder for chaining.
+ * Kotlin-friendly overload of [DialogoBuilder.negative].
  */
 fun DialogoBuilder.negative(text: String, onClick: (() -> Unit)? = null): DialogoBuilder {
     return if (onClick != null) {
@@ -100,12 +93,7 @@ fun DialogoBuilder.negative(text: String, onClick: (() -> Unit)? = null): Dialog
 }
 
 /**
- * Kotlin-friendly overload of [DialogoBuilder.neutral] accepting a
- * no-argument lambda.
- *
- * @param text    Button label.
- * @param onClick Optional callback; may be null.
- * @return This builder for chaining.
+ * Kotlin-friendly overload of [DialogoBuilder.neutral].
  */
 fun DialogoBuilder.neutral(text: String, onClick: (() -> Unit)? = null): DialogoBuilder {
     return if (onClick != null) {
@@ -119,57 +107,30 @@ fun DialogoBuilder.neutral(text: String, onClick: (() -> Unit)? = null): Dialogo
 
 /**
  * Shows a "Success" preset dialog directly from a [Context].
- *
- * <p>Example:</p>
- * ```
- * showSuccessDialog(supportFragmentManager, "Saved!", "Your data was saved.")
- * ```
- *
- * @param fragmentManager The host's FragmentManager.
- * @param title           Dialog title.
- * @param message         Dialog message body.
+ * Automatically discovers the FragmentManager.
  */
-fun Context.showSuccessDialog(
-    fragmentManager: FragmentManager,
-    title: String,
-    message: String
-) {
+fun Context.showSuccessDialog(title: String, message: String) {
+    Dialogo.success(this, title, message).show()
+}
+
+/**
+ * Shows a "Success" preset dialog using an explicit [FragmentManager].
+ */
+fun Context.showSuccessDialog(fragmentManager: FragmentManager, title: String, message: String) {
     Dialogo.success(this, title, message).show(fragmentManager)
 }
 
 /**
  * Shows an "Error" preset dialog directly from a [Context].
- *
- * @param fragmentManager The host's FragmentManager.
- * @param title           Dialog title.
- * @param message         Dialog message body.
+ * Automatically discovers the FragmentManager.
  */
-fun Context.showErrorDialog(
-    fragmentManager: FragmentManager,
-    title: String,
-    message: String
-) {
-    Dialogo.error(this, title, message).show(fragmentManager)
+fun Context.showErrorDialog(title: String, message: String) {
+    Dialogo.error(this, title, message).show()
 }
 
-// ==================== BottomSheet Extension ====================
-
 /**
- * Shows the dialog as a BottomSheet using a default tag.
- *
- * <p>Example:</p>
- * ```
- * dialogo(this) {
- *     title("Options")
- *     items("Edit", "Share", "Delete")
- * }.showBottomSheetKt(supportFragmentManager)
- * ```
- *
- * @param fragmentManager The host's FragmentManager.
- * @param tag             Fragment tag; defaults to "DialogoBottomSheet".
- * @return The created [com.abdullghani.dialogo.core.DialogoBottomSheet].
+ * Shows an "Error" preset dialog using an explicit [FragmentManager].
  */
-fun DialogoBuilder.showBottomSheetKt(
-    fragmentManager: FragmentManager,
-    tag: String = "DialogoBottomSheet"
-) = this.showBottomSheet(fragmentManager, tag)
+fun Context.showErrorDialog(fragmentManager: FragmentManager, title: String, message: String) {
+    Dialogo.error(this, title, message).show(fragmentManager)
+}

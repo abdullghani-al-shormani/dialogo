@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="1. Simple Alert" />
+            android:text="1. Simple Alert (Auto FragmentManager)" />
 
         <Button
             android:id="@+id/btConfirmDialog"
@@ -117,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="10. Loading" />
+            android:text="10. Loading (Programmatic Dismiss)" />
 
         <Button
             android:id="@+id/btDeleteConfirm"
@@ -319,13 +319,6 @@
             android:layout_marginBottom="8dp"
             android:text="30. Theme Rounded" />
 
-        <Button
-            android:id="@+id/btBottomSheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="31. BottomSheet Dialog" />
-
         <!-- ==================== Popup & Positions ==================== -->
 
         <TextView
@@ -343,56 +336,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="32. Modal: Top" />
+            android:text="31. Modal: Top" />
 
         <Button
             android:id="@+id/btPositionCenter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="33. Modal: Center" />
+            android:text="32. Modal: Center" />
 
         <Button
             android:id="@+id/btPositionBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="34. Modal: Bottom" />
+            android:text="33. Modal: Bottom" />
 
         <Button
             android:id="@+id/btPopupTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="35. Popup (Non-Modal): Top" />
+            android:text="34. Popup (Non-Modal): Top" />
 
         <Button
             android:id="@+id/btPopupCenter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="36. Popup (Non-Modal): Center" />
+            android:text="35. Popup (Non-Modal): Center" />
 
         <Button
             android:id="@+id/btPopupBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="37. Popup (Non-Modal): Bottom" />
+            android:text="36. Popup (Non-Modal): Bottom" />
 
         <Button
             android:id="@+id/btPopupAutoDismiss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="38. Popup Auto-Dismiss (3s)" />
+            android:text="37. Popup Auto-Dismiss (3s)" />
 
         <Button
             android:id="@+id/btPopupSlideDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="39. Popup Slide Down Animation" />
+            android:text="38. Popup Slide Down Animation" />
 
     </LinearLayout>
 </ScrollView>
