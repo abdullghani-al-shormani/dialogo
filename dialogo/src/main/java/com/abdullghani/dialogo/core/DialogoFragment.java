@@ -2,6 +2,7 @@ package com.abdullghani.dialogo.core;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -41,7 +42,6 @@ import com.abdullghani.dialogo.window.WindowHelper;
  * to instantiate this class directly.</p>
  *
  * @see DialogoController
- * @see DialogoBottomSheet
  * @see com.abdullghani.dialogo.builder.DialogoBuilder
  */
 public class DialogoFragment extends DialogFragment implements DialogoController {
@@ -136,13 +136,21 @@ public class DialogoFragment extends DialogFragment implements DialogoController
         applyMarginsToCard(cardContainer);
 
         // 2) Apply background, stroke, and elevation
+        // 2) Apply background, stroke, and elevation
         if (cardContainer != null) {
             int bg = params.backgroundColor != null ? params.backgroundColor : 0xFFFFFFFF;
             float radius = params.cornerRadiusPx > 0 ? params.cornerRadiusPx : dpToPx(24f);
+
             cardContainer.setBackground(WindowHelper.createCardBackground(
                     bg, radius, params.strokeColor, params.strokeWidthPx));
+
             if (params.elevationEnabled) {
                 cardContainer.setElevation(dpToPx(params.elevationDp));
+            }
+
+            // ✨ Apply colored shadow (API 28+)
+            if (params.shadowColor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                cardContainer.setOutlineSpotShadowColor(params.shadowColor);
             }
         }
 

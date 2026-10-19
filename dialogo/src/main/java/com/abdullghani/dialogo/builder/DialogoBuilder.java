@@ -1,6 +1,8 @@
 package com.abdullghani.dialogo.builder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -10,16 +12,15 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.abdullghani.dialogo.Dialogo;
 import com.abdullghani.dialogo.animation.DialogoAnimation;
-import com.abdullghani.dialogo.core.DialogoBottomSheet;
 import com.abdullghani.dialogo.core.DialogoFragment;
 import com.abdullghani.dialogo.model.DialogoAction;
 import com.abdullghani.dialogo.model.DialogoParams;
 import com.abdullghani.dialogo.model.DialogoPosition;
-import com.abdullghani.dialogo.model.DialogoResult;
 import com.abdullghani.dialogo.model.FormField;
 import com.abdullghani.dialogo.theme.DialogoTheme;
 import com.abdullghani.dialogo.window.WindowHelper;
@@ -30,65 +31,19 @@ import java.util.List;
 
 /**
  * Fluent builder for constructing and displaying dialogs.
- *
- * <p>Obtained via {@link Dialogo#with(Context)}. Every configuration method
- * returns {@code this}, so you can chain calls in a single statement.</p>
- *
- * <h3>Basic Example</h3>
- * <pre>{@code
- * Dialogo.with(this)
- *     .title("Save changes?")
- *     .message("Do you want to save?")
- *     .positive("Save", controller -> save())
- *     .negative("Discard", null)
- *     .show(getSupportFragmentManager());
- * }</pre>
- *
- * <h3>Loading Dialog with Programmatic Dismiss</h3>
- * <pre>{@code
- * DialogoBuilder builder = Dialogo.with(this)
- *     .title("Loading...")
- *     .progress(true);
- *
- * builder.show(getSupportFragmentManager());
- *
- * // Later, when the operation completes:
- * builder.dismiss();
- * }</pre>
- *
- * @see Dialogo
- * @see DialogoFragment
- * @see DialogoBottomSheet
  */
 public class DialogoBuilder {
 
     private final WeakReference<Context> contextRef;
     private final DialogoParams params;
-
-    // ==================== State ====================
-
-    /** Reference to the last dialog shown by this builder (for dismiss()). */
     private WeakReference<DialogoFragment> lastFragmentRef;
 
-    /** Reference to the last bottom sheet shown by this builder. */
-    private WeakReference<DialogoBottomSheet> lastBottomSheetRef;
-
-    /**
-     * Creates a builder bound to the given context.
-     *
-     * @param context Activity or Fragment context (stored as a weak reference).
-     */
     public DialogoBuilder(@NonNull Context context) {
         this.contextRef = new WeakReference<>(context);
         this.params = new DialogoParams();
         applyGlobalTheme();
     }
 
-    /**
-     * Creates a builder without a bound context.
-     *
-     * <p>Prefer {@link #DialogoBuilder(Context)} in most cases.</p>
-     */
     public DialogoBuilder() {
         this.contextRef = null;
         this.params = new DialogoParams();
@@ -410,22 +365,27 @@ public class DialogoBuilder {
 
     // ==================== Build & Show ====================
 
-    /**
-     * Builds the {@link DialogoFragment} without showing it.
-     */
     public DialogoFragment build() {
         return DialogoFragment.newInstance(params);
     }
 
     /**
-     * Shows the dialog as a standard modal dialog.
+     * Shows the dialog automatically discovering the FragmentManager
+     * from the context provided in {@link Dialogo#with(Context)}.
+     */
+    public DialogoFragment show() {
+        return show(findFragmentManager(), "DialogoFragment");
+    }
+
+    /**
+     * Shows the dialog with an explicitly provided FragmentManager.
      */
     public DialogoFragment show(@NonNull FragmentManager fragmentManager) {
         return show(fragmentManager, "DialogoFragment");
     }
 
     /**
-     * Shows the dialog with a specific tag.
+     * Shows the dialog with an explicitly provided FragmentManager and tag.
      */
     public DialogoFragment show(@NonNull FragmentManager fragmentManager, String tag) {
         DialogoFragment fragment = build();
@@ -434,20 +394,11 @@ public class DialogoBuilder {
         return fragment;
     }
 
-    // ==================== BottomSheet ====================
-
-    public DialogoBottomSheet showBottomSheet(@NonNull FragmentManager fragmentManager) {
-        return showBottomSheet(fragmentManager, "DialogoBottomSheet");
-    }
-
-    public DialogoBottomSheet showBottomSheet(@NonNull FragmentManager fragmentManager, String tag) {
-        DialogoBottomSheet sheet = DialogoBottomSheet.newInstance(params);
-        sheet.show(fragmentManager, tag != null ? tag : "DialogoBottomSheet");
-        lastBottomSheetRef = new WeakReference<>(sheet);
-        return sheet;
-    }
-
     // ==================== Result API ====================
+
+    public DialogoFragment showForResult(@NonNull DialogoParams.ResultListener listener) {
+        return showForResult(findFragmentManager(), "DialogoFragment", listener);
+    }
 
     public DialogoFragment showForResult(@NonNull FragmentManager fragmentManager,
                                          @NonNull DialogoParams.ResultListener listener) {
@@ -466,96 +417,31 @@ public class DialogoBuilder {
 
     // ==================== Dismiss / State APIs ====================
 
-    /**
-     * Dismisses the last dialog or bottom sheet shown by this builder.
-     *
-     * <p>Uses the default exit animation ({@code true}).</p>
-     *
-     * <p><b>Example:</b></p>
-     * <pre>{@code
-     * DialogoBuilder builder = Dialogo.with(this)
-     *     .title("Loading...")
-     *     .progress(true);
-     *
-     * builder.show(getSupportFragmentManager());
-     *
-     * // Later:
-     * builder.dismiss();
-     * }</pre>
-     *
-     * <p>Safe to call multiple times — no-op if the dialog is not showing.</p>
-     */
     public void dismiss() {
         dismiss(true);
     }
 
-    /**
-     * Dismisses the last dialog or bottom sheet shown by this builder.
-     *
-     * @param animated {@code true} to play the exit animation,
-     *                 {@code false} to dismiss immediately.
-     */
     public void dismiss(boolean animated) {
         DialogoFragment fragment = lastFragmentRef != null ? lastFragmentRef.get() : null;
         if (fragment != null && fragment.isAdded()) {
-            if (animated) {
-                fragment.dismiss();
-            } else {
-                fragment.dismissImmediately();
-            }
+            if (animated) fragment.dismiss();
+            else fragment.dismissImmediately();
             lastFragmentRef = null;
-            return;
-        }
-
-        DialogoBottomSheet sheet = lastBottomSheetRef != null ? lastBottomSheetRef.get() : null;
-        if (sheet != null && sheet.isAdded()) {
-            if (animated) {
-                sheet.dismiss();
-            } else {
-                sheet.dismissImmediately();
-            }
-            lastBottomSheetRef = null;
         }
     }
 
-    /**
-     * Returns {@code true} if the last dialog or bottom sheet is currently added
-     * to the fragment manager.
-     */
     public boolean isAdded() {
         DialogoFragment fragment = lastFragmentRef != null ? lastFragmentRef.get() : null;
-        if (fragment != null && fragment.isAdded()) return true;
-
-        DialogoBottomSheet sheet = lastBottomSheetRef != null ? lastBottomSheetRef.get() : null;
-        return sheet != null && sheet.isAdded();
+        return fragment != null && fragment.isAdded();
     }
 
-    /**
-     * Returns {@code true} if the last dialog or bottom sheet is currently
-     * showing on screen.
-     */
     public boolean isShowing() {
         DialogoFragment fragment = lastFragmentRef != null ? lastFragmentRef.get() : null;
-        if (fragment != null && fragment.isVisible()) return true;
-
-        DialogoBottomSheet sheet = lastBottomSheetRef != null ? lastBottomSheetRef.get() : null;
-        return sheet != null && sheet.isVisible();
+        return fragment != null && fragment.isVisible();
     }
 
-    /**
-     * Returns the last {@link DialogoFragment} shown by this builder,
-     * or {@code null} if none was shown yet.
-     */
     public DialogoFragment getFragment() {
         return lastFragmentRef != null ? lastFragmentRef.get() : null;
-    }
-
-    /**
-     * Returns the last {@link DialogoBottomSheet} shown by this builder,
-     * or {@code null} if none was shown yet.
-     */
-    public DialogoBottomSheet getBottomSheet() {
-        return lastBottomSheetRef != null ? lastBottomSheetRef.get() : null;
     }
 
     // ==================== Form ====================
@@ -563,9 +449,7 @@ public class DialogoBuilder {
     public DialogoBuilder addText(String id, CharSequence label, CharSequence hint) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.TEXT);
-        f.label = label;
-        f.hint = hint;
-        f.required = true;
+        f.label = label; f.hint = hint; f.required = true;
         params.formFields.add(f);
         return this;
     }
@@ -573,9 +457,7 @@ public class DialogoBuilder {
     public DialogoBuilder addPassword(String id, CharSequence label, CharSequence hint) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.PASSWORD);
-        f.label = label;
-        f.hint = hint;
-        f.required = true;
+        f.label = label; f.hint = hint; f.required = true;
         params.formFields.add(f);
         return this;
     }
@@ -583,8 +465,7 @@ public class DialogoBuilder {
     public DialogoBuilder addNumber(String id, CharSequence label, CharSequence hint) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.NUMBER);
-        f.label = label;
-        f.hint = hint;
+        f.label = label; f.hint = hint;
         params.formFields.add(f);
         return this;
     }
@@ -592,8 +473,7 @@ public class DialogoBuilder {
     public DialogoBuilder addEmail(String id, CharSequence label, CharSequence hint) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.EMAIL);
-        f.label = label;
-        f.hint = hint;
+        f.label = label; f.hint = hint;
         params.formFields.add(f);
         return this;
     }
@@ -601,8 +481,7 @@ public class DialogoBuilder {
     public DialogoBuilder addPhone(String id, CharSequence label, CharSequence hint) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.PHONE);
-        f.label = label;
-        f.hint = hint;
+        f.label = label; f.hint = hint;
         params.formFields.add(f);
         return this;
     }
@@ -610,9 +489,7 @@ public class DialogoBuilder {
     public DialogoBuilder addMultiline(String id, CharSequence label, CharSequence hint, int maxLines) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.MULTILINE);
-        f.label = label;
-        f.hint = hint;
-        f.maxLines = maxLines;
+        f.label = label; f.hint = hint; f.maxLines = maxLines;
         params.formFields.add(f);
         return this;
     }
@@ -620,8 +497,7 @@ public class DialogoBuilder {
     public DialogoBuilder addSwitch(String id, CharSequence label, boolean defaultValue) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.SWITCH);
-        f.label = label;
-        f.switchDefault = defaultValue;
+        f.label = label; f.switchDefault = defaultValue;
         params.formFields.add(f);
         return this;
     }
@@ -629,8 +505,7 @@ public class DialogoBuilder {
     public DialogoBuilder addCheckbox(String id, CharSequence label, boolean defaultValue) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.CHECKBOX);
-        f.label = label;
-        f.checkboxDefault = defaultValue;
+        f.label = label; f.checkboxDefault = defaultValue;
         params.formFields.add(f);
         return this;
     }
@@ -639,9 +514,7 @@ public class DialogoBuilder {
                                       java.util.List<CharSequence> options, int defaultIndex) {
         ensureFormFields();
         FormField f = new FormField(id, FormField.Type.DROPDOWN);
-        f.label = label;
-        f.options = options;
-        f.dropdownSelectedIndex = defaultIndex;
+        f.label = label; f.options = options; f.dropdownSelectedIndex = defaultIndex;
         params.formFields.add(f);
         return this;
     }
@@ -657,5 +530,66 @@ public class DialogoBuilder {
         if (params.formFields == null) {
             params.formFields = new java.util.ArrayList<>();
         }
+    }
+
+    // ==================== Internal Helpers ====================
+
+    /**
+     * Extracts a FragmentManager from the bound Context.
+     */
+    private FragmentManager findFragmentManager() {
+        if (contextRef == null || contextRef.get() == null) {
+            throw new IllegalStateException("Context is null. Call Dialogo.with(context) first.");
+        }
+
+        Context context = contextRef.get();
+
+        // Traverse ContextWrappers to find the underlying Activity
+        while (context instanceof ContextWrapper) {
+            if (context instanceof FragmentActivity) {
+                return ((FragmentActivity) context).getSupportFragmentManager();
+            }
+            if (context instanceof Activity) {
+                throw new IllegalStateException("Dialogo requires a FragmentActivity (AppCompatActivity). Found a plain Activity.");
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+
+        throw new IllegalStateException("Could not find a FragmentManager. Ensure the Context is an AppCompatActivity.");
+    }
+
+    /**
+     * Sets the color of the dialog's shadow.
+     * Note: Requires API 28+ to take effect.
+     *
+     * @param color ARGB color.
+     * @return This builder for chaining.
+     */
+    public DialogoBuilder shadowColor(@ColorInt int color) {
+        params.shadowColor = color;
+        return this;
+    }
+
+    /**
+     * Enables a "Frosted Glass" effect on the dialog card.
+     * The background becomes semi-transparent white with a subtle border,
+     * and enables window blur (API 31+) to make it truly glass-like.
+     *
+     * @param enable {@code true} to enable glass effect.
+     * @return This builder for chaining.
+     */
+    public DialogoBuilder glassBackground(boolean enable) {
+        params.isGlassEnabled = enable;
+        if (enable) {
+            params.isBlurEnabled = true; // Blur behind the window
+            if (params.backgroundColor == null) {
+                params.backgroundColor = 0xCCFFFFFF; // Semi-transparent white (80%)
+            }
+            if (params.strokeColor == null) {
+                params.strokeColor = 0x55FFFFFF; // Subtle white border
+                params.strokeWidthPx = 2f;
+            }
+        }
+        return this;
     }
 }

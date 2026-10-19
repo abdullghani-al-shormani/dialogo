@@ -23,7 +23,6 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
     private final List<Integer> icons;
     private final boolean isSingleChoice;
     private final boolean isMultiChoice;
-    private final boolean useBottomSheetStyle;
     private final DialogoParams params;
     private final DialogoController controller;
 
@@ -31,8 +30,7 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
     private final boolean[] checkedItems;
     private final boolean hasPositiveButton;
 
-    public DialogoListAdapter(DialogoParams params, DialogoController controller,
-                              boolean useBottomSheetStyle) {
+    public DialogoListAdapter(DialogoParams params, DialogoController controller) {
         this.params = params;
         this.controller = controller;
         this.items = params.listItems;
@@ -41,7 +39,6 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
         this.isMultiChoice = params.listMultiChoice;
         this.selectedPosition = params.listSelectedIndex;
         this.hasPositiveButton = params.positiveAction != null;
-        this.useBottomSheetStyle = useBottomSheetStyle;
 
         if (params.listCheckedItems != null) {
             this.checkedItems = params.listCheckedItems.clone();
@@ -53,11 +50,8 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutRes = useBottomSheetStyle
-                ? R.layout.dialogo_item_bottomsheet
-                : R.layout.dialogo_item_list;
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(layoutRes, parent, false);
+                .inflate(R.layout.dialogo_item_list, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -82,7 +76,6 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
         // Reset
         holder.radioButton.setVisibility(View.GONE);
         holder.checkBox.setVisibility(View.GONE);
-        if (holder.ivChevron != null) holder.ivChevron.setVisibility(View.GONE);
 
         // ==================== Single Choice ====================
         if (isSingleChoice) {
@@ -126,11 +119,6 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
 
             // ==================== Plain List ====================
         } else {
-            // في BottomSheet، نظهر سهم صغير
-            if (useBottomSheetStyle && holder.ivChevron != null) {
-                holder.ivChevron.setVisibility(View.VISIBLE);
-            }
-
             holder.itemView.setOnClickListener(v -> {
                 int pos = holder.getBindingAdapterPosition();
                 if (pos == RecyclerView.NO_POSITION) return;
@@ -163,15 +151,13 @@ public class DialogoListAdapter extends RecyclerView.Adapter<DialogoListAdapter.
         RadioButton radioButton;
         CheckBox checkBox;
         ImageView ivIcon;
-        ImageView ivChevron;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvText = itemView.findViewById(R.id.dialogo_tv_item_text);
             radioButton = itemView.findViewById(R.id.dialogo_radio_item);
             checkBox = itemView.findViewById(R.id.dialogo_checkbox_item);
-            ivIcon = itemView.findViewById(R.id.dialogo_item_icon);       // اختياري
-            ivChevron = itemView.findViewById(R.id.dialogo_item_chevron); // اختياري
+            ivIcon = itemView.findViewById(R.id.dialogo_item_icon);
         }
     }
 }
