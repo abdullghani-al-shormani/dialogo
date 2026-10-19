@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.abdullghani.dialogo'
-    compileSdk 34 // تم التخفيض من 37 ليتوافق مع معظم المشاريع
+    compileSdk 35
 
     defaultConfig {
         minSdk 21
