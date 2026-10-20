@@ -592,4 +592,41 @@ public class DialogoBuilder {
         }
         return this;
     }
+
+
+    /**
+     * Sets the padding for the entire dialog card.
+     *
+     * @param dp Padding in density-independent pixels.
+     * @return This builder for chaining.
+     */
+    public DialogoBuilder padding(float dp) {
+        if (contextRef != null && contextRef.get() != null) {
+            params.paddingPx = WindowHelper.dpToPx(contextRef.get(), dp);
+        }
+        return this;
+    }
+
+    /**
+     * Sets individual padding for the dialog card (in dp).
+     */
+    public DialogoBuilder padding(float left, float top, float right, float bottom) {
+        if (contextRef != null && contextRef.get() != null) {
+            Context ctx = contextRef.get();
+            params.paddingLeftPx = WindowHelper.dpToPx(ctx, left);
+            params.paddingTopPx = WindowHelper.dpToPx(ctx, top);
+            params.paddingRightPx = WindowHelper.dpToPx(ctx, right);
+            params.paddingBottomPx = WindowHelper.dpToPx(ctx, bottom);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the padding for the entire dialog card in raw pixels.
+     * (Use this only if you have pre-calculated pixels).
+     */
+    public DialogoBuilder paddingPx(int px) {
+        params.paddingPx = Math.max(0, px);
+        return this;
+    }
 }

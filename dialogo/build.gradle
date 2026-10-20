@@ -50,7 +50,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.abdullghani-al-shormani'
                 artifactId = 'dialogo'
-                version = '1.0.3' // تم رفع الإصدار
+                version = '1.0.5' // تم رفع الإصدار
 
                 pom {
                     name = 'Dialogo'

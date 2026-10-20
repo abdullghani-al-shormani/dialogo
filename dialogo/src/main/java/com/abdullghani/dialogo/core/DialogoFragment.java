@@ -135,11 +135,26 @@ public class DialogoFragment extends DialogFragment implements DialogoController
         applyCardPosition(cardContainer);
         applyMarginsToCard(cardContainer);
 
-        // 2) Apply background, stroke, and elevation
-        // 2) Apply background, stroke, and elevation
+        // 2) Apply background, stroke, padding, and elevation
         if (cardContainer != null) {
             int bg = params.backgroundColor != null ? params.backgroundColor : 0xFFFFFFFF;
             float radius = params.cornerRadiusPx > 0 ? params.cornerRadiusPx : dpToPx(24f);
+
+            // ✨ Apply padding (default or custom)
+            if (params.paddingPx >= 0) {
+                cardContainer.setPadding(params.paddingPx, params.paddingPx, params.paddingPx, params.paddingPx);
+            } else if (params.paddingLeftPx >= 0 || params.paddingTopPx >= 0 ||
+                    params.paddingRightPx >= 0 || params.paddingBottomPx >= 0) {
+                int l = params.paddingLeftPx >= 0 ? params.paddingLeftPx : cardContainer.getPaddingLeft();
+                int t = params.paddingTopPx >= 0 ? params.paddingTopPx : cardContainer.getPaddingTop();
+                int r = params.paddingRightPx >= 0 ? params.paddingRightPx : cardContainer.getPaddingRight();
+                int b = params.paddingBottomPx >= 0 ? params.paddingBottomPx : cardContainer.getPaddingBottom();
+                cardContainer.setPadding(l, t, r, b);
+            } else {
+                // Apply default 15dp padding if nothing is set
+                int defaultPadding = (int) dpToPx(15f);
+                cardContainer.setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding);
+            }
 
             cardContainer.setBackground(WindowHelper.createCardBackground(
                     bg, radius, params.strokeColor, params.strokeWidthPx));
@@ -514,6 +529,7 @@ public class DialogoFragment extends DialogFragment implements DialogoController
         isDismissing = true;
         dismissAllowingStateLoss();
     }
+
     // ==================== Helpers ====================
 
     private float dpToPx(float dp) {

@@ -155,6 +155,13 @@ public class DialogoParams {
     public boolean isGlassEnabled = false;   // تفعيل التأثير الزجاجي
     // ==================== Interfaces ====================
 
+    // Padding (in pixels)
+    public int paddingPx = -1; // -1 means use default from XML
+    public int paddingTopPx = -1;
+    public int paddingBottomPx = -1;
+    public int paddingLeftPx = -1;
+    public int paddingRightPx = -1;
+
     public interface OnViewCreatedListener {
         void onViewCreated(View customView, DialogoController controller);
     }
